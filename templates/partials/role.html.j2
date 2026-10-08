@@ -1,0 +1,17 @@
+<section id="role" class="section">
+  <h2>역할</h2>
+  <ol class="role-steps">
+    {% for r in product.role_steps %}
+    <li><span class="n">{{ '%02d' % loop.index }}</span><strong>{{ r.name }}</strong><span class="d">{{ r.detail }}</span></li>
+    {% endfor %}
+  </ol>
+  <div class="deliverables">
+    {% for im in product.deliverables %}
+    {% set w, h = img_size(im.file) %}
+    <figure>
+      <a href="static/img/{{ im.file }}" class="zoom"><img src="static/img/{{ im.file }}" alt="{{ im.alt }}" width="{{ w }}" height="{{ h }}" loading="lazy"></a>
+      <figcaption>{{ im.caption }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>

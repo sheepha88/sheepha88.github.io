@@ -1,0 +1,8 @@
+dist/
+source/
+이력서 및 포트폴리오/
+__pycache__/
+.venv/
+tests/screenshots/
+.pytest_cache/
+claude_code_prompt_portfolio_web.md

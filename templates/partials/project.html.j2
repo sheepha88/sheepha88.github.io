@@ -1,0 +1,40 @@
+<article id="{{ p.id }}" class="project">
+  <aside class="project-head">
+    <span class="idx">{{ '%02d' % idx }}</span>
+    <div class="kpi"><span class="value">{{ p.kpi.value }}</span><span class="caption">{{ p.kpi.label }}</span></div>
+  </aside>
+  <div class="project-body">
+    <h3>{{ p.headline }}</h3>
+    <dl class="spec">
+      <div><dt>프로젝트</dt><dd>{{ p.name }}</dd></div>
+      <div><dt>기간</dt><dd>{{ p.period | period }} ({{ p.duration }})</dd></div>
+      <div><dt>성과</dt><dd><ul class="results">{% for r in p.results %}<li>{{ r }}</li>{% endfor %}</ul></dd></div>
+      <div><dt>역할</dt><dd>
+        <p class="role-label">{{ p.role_label }}{% if p.collab %} · 협업: {{ p.collab }}{% endif %}</p>
+        <ul>{% for r in p.roles %}<li>{{ r }}</li>{% endfor %}</ul>
+      </dd></div>
+      <div><dt>기술</dt><dd>
+        <ul class="tags">{% for t in p.tech %}<li>{{ t }}</li>{% endfor %}</ul>
+        {% if p.adopted_tech %}
+        <p class="adopted"><span>{{ p.adopted_tech.label }}</span> {{ p.adopted_tech.text }}</p>
+        {% endif %}
+      </dd></div>
+    </dl>
+    {% if p.slides %}
+    <details class="case">
+      <summary>케이스 상세 보기</summary>
+      <div class="viewer" data-viewer>
+        <div class="slides" tabindex="0" role="region" aria-label="{{ p.name }} 케이스 슬라이드(좌우로 넘겨 보기)">
+          {% for s in p.slides %}
+          {% set w, h = img_size(s.file) %}
+          <figure class="slide">
+            <a href="static/slides/{{ s.file }}" class="zoom"><img src="static/slides/{{ s.file }}" alt="{{ s.alt }}" width="{{ w }}" height="{{ h }}" loading="lazy"></a>
+            <figcaption>{{ loop.index }} / {{ loop.length }}</figcaption>
+          </figure>
+          {% endfor %}
+        </div>
+      </div>
+    </details>
+    {% endif %}
+  </div>
+</article>

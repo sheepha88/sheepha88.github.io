@@ -1,0 +1,101 @@
+site:
+  title: 양정우 | Product Manager
+  description: 데이터로 병목을 규명하고, 반복 가능한 표준 구조로 푸는 PM
+  base_url: https://sheepha88.github.io
+  lang: ko
+
+hero:
+  name: 양정우
+  role: Product Manager
+  tagline: 데이터로 병목을 규명하고, 반복 가능한 표준 구조로 푸는 PM
+  intro: >-
+    140개 병원과 의사 80명이 사용하는 B2B SaaS 프로덕트를 3년간 기획부터 개발 관리·검증·배포까지 리딩했습니다.
+    규제 환경에서 다져온 데이터 신뢰성과 End-to-End 리딩 경험으로 조직의 성장에 기여합니다.
+  highlights:
+    - text: 신규 계약 9억원 · 4건 견인
+      value: 9억원
+      project: p1
+    - text: 프로젝트 설정 개발자 신규 투입 100% 제거
+      value: 100%
+      project: p2
+    - text: 개인정보 마스킹 수작업 97% 자동화
+      value: 97%
+      project: p3
+  email: jeong5726@gmail.com
+
+timeline:
+  jobs:
+    - period: [2021-10, 2021-12]
+      org: 서울아산병원
+      title: 연구원 (임상시험 데이터 관리)
+    - period: [2022-01, 2023-02]
+      org: 트라이얼인포매틱스
+      title: Data Manager
+    - period: [2023-02, 2023-03]
+      org: 에코마케팅
+      title: Data Engineer
+    - period: [2023-05, 현재]
+      org: 트라이얼인포매틱스
+      title: Product Manager
+
+product:
+  name: ImageTrial
+  summary: 임상시험 의료영상을 독립 평가자가 판독·채점하고, 그 결과를 규제기관에 제출할 수 있는 데이터로 남기는 영상평가 B2B SaaS. 140개 병원, 의사 80명 사용.
+  customers: 제약사·CRO(임상시험 수탁기관), 프로젝트 단위 계약.
+  users: 평가자(판독의·피부과 전문의), 프로젝트를 세팅하는 운영인력, 데이터 매니저.
+  lines: ImageTrial(항암 BICR·안과·대장내시경) / ImageTrial for Derma(피부·미용의료 사진 평가)
+  role_steps:
+    - name: 기획
+      detail: 요구사항정의서·기능명세서·화면설계서
+    - name: 개발 관리
+      detail: Jira 스프린트
+    - name: 검증
+      detail: CSV 리딩
+    - name: 배포
+      detail: 배포 항목 결정·일정 관리
+  screens:
+    - file: product-dashboard.webp
+      caption: 프로젝트 대시보드
+      alt: ImageTrial 프로젝트 대시보드 화면, 사이트별 진행 현황과 운영 현황 차트
+    - file: product-viewer.webp
+      caption: DICOM 뷰어
+      alt: DICOM 뷰어에서 손 X-ray 영상을 측정 도구와 함께 판독하는 화면
+    - file: product-derma.webp
+      caption: ImageTrial for Derma
+      alt: 피부 사진 평가에 쓰는 얼굴 이미지 화면, 눈 부위는 가려져 있음
+    - file: product-form.webp
+      caption: 평가 폼
+      alt: 복부 초음파 항목을 입력하는 ImageTrial 평가 폼 화면
+  deliverables:
+    - file: product-fds.webp
+      caption: 기획 · 기능명세서
+      alt: 요구사항 ID별 기능을 정리한 기능명세서 표
+    - file: product-figma.webp
+      caption: 기획 · 화면설계서
+      alt: Figma로 화면 간 흐름을 정리한 화면설계서
+    - file: product-jira.webp
+      caption: 개발 관리 · 스프린트
+      alt: Jira 스프린트 티켓의 우선순위, 계획·실제 SP, 상태를 정리한 표
+
+profile:
+  ai:
+    - Claude Code로 프로토타입(PoC) 개발
+    - Azure AI 텍스트 인식 기반 마스킹 자동화 기획 및 적용
+  skills:
+    - name: Figma
+      use: 화면설계서, 공통 컴포넌트
+    - name: Claude Code
+      use: PoC로 구조 검증
+    - name: Jira
+      use: Epic–Story–Task 운영 체계
+    - name: Confluence
+      use: 요구사항정의서·기능명세서, 스프린트 문서
+    - name: Google Analytics(GA4)
+      use: 작업 소요시간 측정
+    - name: SQL / Python
+      use: 데이터 분석
+  awards:
+    - LH 국토도시 데이터 분석 공모전 입선 (2021-10)
+    - AUXDTQ 인공지능활용 사용자경험 디자인기술자격 (2025-03)
+  languages:
+    - 영어 비즈니스 레벨, TOEIC 855 (2020-02)

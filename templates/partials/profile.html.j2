@@ -1,0 +1,9 @@
+<section id="profile" class="section">
+  <h2>프로필</h2>
+  <dl class="spec">
+    <div><dt>AI 활용</dt><dd><ul>{% for a in profile.ai %}<li>{{ a }}</li>{% endfor %}</ul></dd></div>
+    <div><dt>스킬</dt><dd><ul class="skills">{% for s in profile.skills %}<li><strong>{{ s.name }}</strong> — {{ s.use }}</li>{% endfor %}</ul></dd></div>
+    <div><dt>수상·자격</dt><dd><ul>{% for a in profile.awards %}<li>{{ a }}</li>{% endfor %}</ul></dd></div>
+    <div><dt>어학</dt><dd><ul>{% for l in profile.languages %}<li>{{ l }}</li>{% endfor %}</ul></dd></div>
+  </dl>
+</section>

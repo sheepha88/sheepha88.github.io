@@ -1,0 +1,20 @@
+<section id="product" class="section">
+  <h2>제품</h2>
+  <dl class="spec">
+    <div><dt>제품</dt><dd><strong>{{ product.name }}</strong> — {{ product.summary }}</dd></div>
+    <div><dt>고객</dt><dd>{{ product.customers }}</dd></div>
+    <div><dt>사용자</dt><dd>{{ product.users }}</dd></div>
+    <div><dt>제품 라인</dt><dd>{{ product.lines }}</dd></div>
+  </dl>
+  <div class="product-images">
+    <div class="collage collage-product">
+      {% for im in product.screens %}
+      {% set w, h = img_size(im.file) %}
+      <figure class="c{{ loop.index }}">
+        <a href="static/img/{{ im.file }}" class="zoom"><img src="static/img/{{ im.file }}" alt="{{ im.alt }}" width="{{ w }}" height="{{ h }}" loading="lazy"></a>
+        <figcaption>{{ im.caption }}</figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>

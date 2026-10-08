@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ site.title }}">
+  <meta property="og:description" content="{{ site.description }}">
+  <meta property="og:image" content="{{ site.base_url }}/static/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <header class="topnav">
+    <nav aria-label="섹션 이동">
+      <a class="brand" href="#top">양정우</a>
+      <ul>
+        <li><a href="#profile">프로필</a></li>
+        <li><a href="#career">경력</a></li>
+        <li><a href="#product">제품</a></li>
+        <li><a href="#role">역할</a></li>
+        <li><a href="#projects">프로젝트</a></li>
+        <li><a href="#contact">연락처</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="top">
+    {% include "partials/hero.html.j2" %}
+    {% include "partials/profile.html.j2" %}
+    {% include "partials/career.html.j2" %}
+    {% include "partials/product.html.j2" %}
+    {% include "partials/role.html.j2" %}
+    <section id="projects" class="section">
+      <h2>프로젝트</h2>
+      <ol class="project-index" aria-label="프로젝트 목록">
+        {% for p in projects %}
+        <li>
+          <a href="#{{ p.id }}">
+            <span class="n">{{ '%02d' % loop.index }}</span>
+            <span class="t">{{ p.headline }}<small>{{ p.name }} · {{ p.period | period }} ({{ p.duration }})</small></span>
+            <span class="k"><b>{{ p.kpi.value }}</b>{{ p.kpi.label }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ol>
+      {% for p in projects %}
+        {% set idx = loop.index %}
+        {% include "partials/project.html.j2" %}
+      {% endfor %}
+    </section>
+  </main>
+  {% include "partials/footer.html.j2" %}
+  <dialog id="lightbox" aria-label="이미지 확대">
+    <div class="lb-top">
+      <span class="lb-count" aria-live="polite"></span>
+      <form method="dialog"><button class="close" aria-label="닫기">닫기</button></form>
+    </div>
+    <div class="lb-stage">
+      <button type="button" class="lb-prev" aria-label="이전"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <img alt="">
+      <button type="button" class="lb-next" aria-label="다음"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </dialog>
+  <script src="static/js/main.js" defer></script>
+</body>
+</html>
