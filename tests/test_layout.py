@@ -89,21 +89,34 @@ def test_all_images_load(browser, base_url, name):
     ctx.close()
 
 
-@pytest.mark.parametrize("name", ["mobile", "tablet"])
-def test_collage_stacks_without_overlap_on_small_screens(browser, base_url, name):
+@pytest.mark.parametrize("name", WIDTHS)
+def test_coverflow_shows_one_large_card_and_navigates(browser, base_url, name):
     w, h = WIDTHS[name]
     ctx, page = _open(browser, base_url, w, h, "light")
-    boxes = page.evaluate("""() => [...document.querySelectorAll('.collage-product figure')].map(f => {
-        const r = f.getBoundingClientRect(); return [r.left, r.top, r.right, r.bottom];
-    })""")
-    assert len(boxes) == 4
-    for b in boxes:
-        assert b[3] - b[1] > 100 and b[2] - b[0] > 100, f"콜라주 이미지가 너무 작음: {b}"
-    for i in range(len(boxes)):
-        for j in range(i + 1, len(boxes)):
-            a, c = boxes[i], boxes[j]
-            overlap = min(a[2], c[2]) - max(a[0], c[0]) > 1 and min(a[3], c[3]) - max(a[1], c[1]) > 1
-            assert not overlap, f"겹침: {i} / {j}"
+    assert page.locator(".cf-item").count() == 3
+    assert page.locator('.cf-item[data-pos="0"]').count() == 1
+    assert page.locator(".cf-dots button").count() == 3
+    center = page.locator('.cf-item[data-pos="0"]')
+    assert center.bounding_box()["width"] > 200
+    first = center.locator("figcaption").inner_text()
+    page.locator(".cf-next").click()
+    page.wait_for_timeout(500)
+    second = page.locator('.cf-item[data-pos="0"] figcaption').inner_text()
+    assert second != first
+    page.locator(".cf-prev").click()
+    page.wait_for_timeout(500)
+    assert page.locator('.cf-item[data-pos="0"] figcaption').inner_text() == first
+    page.locator(".cf-dots button").nth(2).click()
+    page.wait_for_timeout(500)
+    assert page.locator('.cf-dots button[aria-current="true"]').count() == 1
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+    ctx.close()
+
+
+def test_coverflow_lightbox_has_three(browser, base_url):
+    ctx, page = _open(browser, base_url, 1440, 900, "light")
+    page.locator('.cf-item[data-pos="0"] .zoom').click()
+    assert page.locator(".lb-count").inner_text() == "1 / 3"
     ctx.close()
 
 
@@ -123,6 +136,7 @@ def test_content_present_without_js(browser, base_url):
     assert page.locator("#p3 .slide").count() == 8
     assert page.locator("#p4 details").count() == 0
     assert page.locator("#career tbody tr").count() == 4
+    assert page.locator(".cf-item").count() == 3
     ctx.close()
 
 

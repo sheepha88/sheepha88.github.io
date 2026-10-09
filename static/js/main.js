@@ -38,7 +38,7 @@
     document.querySelectorAll('a.zoom').forEach(function (a) {
       a.addEventListener('click', function (ev) {
         ev.preventDefault();
-        var scope = a.closest('[data-viewer], .product-images, .deliverables') || document;
+        var scope = a.closest('[data-viewer], [data-coverflow], .deliverables') || document;
         group = Array.prototype.slice.call(scope.querySelectorAll('a.zoom'));
         show(group.indexOf(a));
         dlg.showModal();
@@ -55,6 +55,8 @@
       // 확대 창에서 본 슬라이드 위치로 뷰어를 맞춘다
       var a = group[cur], track = a && a.closest('.slides');
       if (track) track.scrollTo({ left: track.clientWidth * cur, behavior: 'auto' });
+      var cfEl = a && a.closest('[data-coverflow]');
+      if (cfEl && cfEl._go) cfEl._go(cur);
     });
   }
 
@@ -93,6 +95,63 @@
     track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
     window.addEventListener('resize', update);
     update();
+  });
+
+  // 제품 화면 코버플로: 가운데 카드만 크게, 좌우 버튼/점/방향키/옆 카드 클릭으로 이동 (JS가 없으면 세로로 나열)
+  document.querySelectorAll('[data-coverflow]').forEach(function (cf) {
+    var stage = cf.querySelector('.cf-stage');
+    var items = Array.prototype.slice.call(cf.querySelectorAll('.cf-item'));
+    var n = items.length;
+    if (n < 2) return;
+    var cur = 0;
+    cf.classList.add('js');
+    function mkBtn(cls, label, svg) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'cf-btn ' + cls; b.setAttribute('aria-label', label); b.innerHTML = svg;
+      stage.appendChild(b);
+      return b;
+    }
+    var prev = mkBtn('cf-prev', '이전 화면', '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    var next = mkBtn('cf-next', '다음 화면', '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    var dotsBox = document.createElement('div');
+    dotsBox.className = 'cf-dots';
+    var dots = items.map(function (it, i) {
+      var d = document.createElement('button');
+      d.type = 'button';
+      d.setAttribute('aria-label', (i + 1) + '번째 화면');
+      d.addEventListener('click', function () { go(i); });
+      dotsBox.appendChild(d);
+      return d;
+    });
+    cf.appendChild(dotsBox);
+    function offset(i) {
+      var d = (((i - cur) % n) + n) % n;
+      return d > n / 2 ? d - n : d;
+    }
+    function render() {
+      items.forEach(function (it, i) {
+        var d = offset(i);
+        it.setAttribute('data-pos', Math.abs(d) > 1 ? 'far' : String(d));
+        it.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+        var a = it.querySelector('a');
+        if (a) a.tabIndex = d === 0 ? 0 : -1;
+      });
+      dots.forEach(function (d, i) { d.setAttribute('aria-current', i === cur ? 'true' : 'false'); });
+    }
+    function go(i) { cur = ((i % n) + n) % n; render(); }
+    cf._go = go;
+    prev.addEventListener('click', function () { go(cur - 1); });
+    next.addEventListener('click', function () { go(cur + 1); });
+    items.forEach(function (it, i) {
+      it.addEventListener('click', function (ev) {
+        if (it.getAttribute('data-pos') !== '0') { ev.preventDefault(); go(i); }
+      });
+    });
+    cf.addEventListener('keydown', function (ev) {
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); go(cur + 1); }
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); go(cur - 1); }
+    });
+    render();
   });
 
   var opened = [];

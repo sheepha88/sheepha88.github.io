@@ -6,11 +6,11 @@
     <div><dt>사용자</dt><dd>{{ product.users }}</dd></div>
     <div><dt>제품 라인</dt><dd>{{ product.lines }}</dd></div>
   </dl>
-  <div class="product-images">
-    <div class="collage collage-product">
+  <div class="coverflow" data-coverflow aria-roledescription="carousel" aria-label="제품 화면">
+    <div class="cf-stage">
       {% for im in product.screens %}
       {% set w, h = img_size(im.file) %}
-      <figure class="c{{ loop.index }}">
+      <figure class="cf-item">
         <a href="static/img/{{ im.file }}" class="zoom"><img src="static/img/{{ im.file }}" alt="{{ im.alt }}" width="{{ w }}" height="{{ h }}" loading="lazy"></a>
         <figcaption>{{ im.caption }}</figcaption>
       </figure>

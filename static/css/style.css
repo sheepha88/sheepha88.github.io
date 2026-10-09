@@ -195,18 +195,27 @@ tr:last-child td { border-bottom: 0; }
 th { color: var(--muted); font-weight: 500; background: var(--brand-soft); }
 tr.chosen td { background: var(--brand-soft); font-weight: 600; }
 
-/* 브로셔형 콜라주 */
-.product-images { display: grid; gap: 3rem; margin-top: 2.5rem; }
-.collage { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(12, 1fr); aspect-ratio: 4 / 3; max-width: 62rem; }
-.collage figure { position: relative; margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 22px 44px -22px rgb(20 24 60 / 0.4); transition: transform 0.2s; }
-.collage figure:hover { transform: translateY(-4px); z-index: 9 !important; }
-.collage img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
-.collage figcaption { position: absolute; left: 0.625rem; top: 0.625rem; background: var(--glass); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 999px; padding: 0.125rem 0.75rem; font-size: 0.8125rem; font-weight: 500; color: var(--ink); pointer-events: none; }
-.collage-product .c1 { grid-column: 1 / 8; grid-row: 1 / 8; z-index: 1; }
-.collage-product .c2 { grid-column: 6 / 13; grid-row: 3 / 10; z-index: 2; }
-.collage-product .c3 { grid-column: 1 / 6; grid-row: 7 / 13; z-index: 3; }
-.collage-product .c4 { grid-column: 5 / 11; grid-row: 8 / 13; z-index: 4; }
+/* 제품 화면: 코버플로 슬라이드 */
 .zoom { display: block; height: 100%; cursor: zoom-in; }
+.coverflow { position: relative; margin-top: 2.5rem; overflow: hidden; padding-bottom: 0.5rem; }
+.cf-stage { position: relative; height: clamp(13rem, 42vw, 28rem); }
+.cf-item { position: absolute; top: 0; left: 50%; height: 100%; aspect-ratio: 4 / 3; margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 24px 48px -24px rgb(20 24 60 / 0.5); transform: translateX(-50%) scale(1); transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease; z-index: 3; }
+.cf-item[data-pos="-1"] { transform: translateX(calc(-50% - 62%)) scale(0.8); opacity: 0.55; filter: brightness(0.75); z-index: 2; cursor: pointer; }
+.cf-item[data-pos="1"] { transform: translateX(calc(-50% + 62%)) scale(0.8); opacity: 0.55; filter: brightness(0.75); z-index: 2; cursor: pointer; }
+.cf-item[data-pos="far"] { transform: translateX(-50%) scale(0.6); opacity: 0; z-index: 1; pointer-events: none; }
+.cf-item:not([data-pos="0"]) .zoom { pointer-events: none; }
+.cf-item img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+.cf-item figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 3rem 1.25rem 1rem; background: linear-gradient(to top, rgb(8 10 24 / 0.82), transparent); color: #fff; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; pointer-events: none; }
+.cf-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.cf-btn:hover { border-color: var(--brand); color: var(--brand); }
+.cf-prev { left: 0.5rem; }
+.cf-next { right: 0.5rem; }
+.cf-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.25rem; }
+.cf-dots button { width: 0.625rem; height: 0.625rem; padding: 0; border: 0; border-radius: 999px; background: var(--line); cursor: pointer; transition: width 0.25s, background 0.25s; }
+.cf-dots button[aria-current="true"] { width: 1.75rem; background: var(--brand); }
+.coverflow:not(.js) { overflow: visible; }
+.coverflow:not(.js) .cf-stage { height: auto; display: grid; gap: 1.25rem; }
+.coverflow:not(.js) .cf-item { position: static; transform: none; height: auto; width: 100%; }
 
 /* 역할 (정렬형) */
 .role-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); }
@@ -249,10 +258,6 @@ dialog.single .lb-stage img { max-width: 96vw; }
   .spec > div { grid-template-columns: 1fr; gap: 0.25rem; padding: 0.875rem 1.125rem; }
   .viewer { padding: 0.5rem; }
   .topnav .brand { display: none; }
-  .collage { aspect-ratio: auto; grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 0.75rem; }
-  .collage figure { grid-column: auto !important; grid-row: auto !important; aspect-ratio: 4 / 3; box-shadow: none; }
-  .collage .c1 { grid-column: 1 / -1 !important; }
-  .collage-product .c4 { grid-column: 1 / -1 !important; }
   .lb-stage { padding: 0; }
   .lb-stage img { max-width: 96vw; }
   .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); width: 2.5rem; height: 2.5rem; background: rgb(255 255 255 / 0.85); color: #131729; }
@@ -262,6 +267,10 @@ dialog.single .lb-stage img { max-width: 96vw; }
   .role-steps li:nth-child(odd) { padding-left: 0; border-left: 0; }
   .role-steps li:nth-child(n+3) { border-top: 0; }
   .deliverables { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .cf-btn { width: 2.5rem; height: 2.5rem; background: rgb(255 255 255 / 0.88); color: #131729; }
+  .cf-prev { left: 0.25rem; }
+  .cf-next { right: 0.25rem; }
+  .cf-item figcaption { font-size: 1.0625rem; padding: 2rem 1rem 0.75rem; }
   .section { padding-top: 3rem; }
   .project-index a { grid-template-columns: 2rem 1fr; }
   .project-index .k { grid-column: 2; text-align: left; display: flex; align-items: baseline; gap: 0.5rem; }

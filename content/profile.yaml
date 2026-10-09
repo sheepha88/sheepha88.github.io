@@ -60,9 +60,6 @@ product:
     - file: product-viewer.webp
       caption: DICOM 뷰어
       alt: DICOM 뷰어에서 손 X-ray 영상을 측정 도구와 함께 판독하는 화면
-    - file: product-derma.webp
-      caption: ImageTrial for Derma
-      alt: 피부 사진 평가에 쓰는 얼굴 이미지 화면, 눈 부위는 가려져 있음
     - file: product-form.webp
       caption: 평가 폼
       alt: 복부 초음파 항목을 입력하는 ImageTrial 평가 폼 화면
