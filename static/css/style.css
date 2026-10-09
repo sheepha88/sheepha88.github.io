@@ -52,7 +52,7 @@ body {
 }
 
 a { color: var(--brand); text-underline-offset: 0.2em; }
-a:focus-visible, summary:focus-visible, .timeline-scroll:focus-visible, button:focus-visible {
+a:focus-visible, .timeline-scroll:focus-visible, button:focus-visible {
   outline: 3px solid var(--brand);
   outline-offset: 3px;
   border-radius: 8px;
@@ -169,11 +169,7 @@ main, .footer { width: min(100% - 2.5rem, 70rem); margin-inline: auto; }
 
 /* 케이스 상세 (슬라이드 뷰어) */
 .case { margin-top: 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--glass); }
-.case summary { cursor: pointer; padding: 1rem 1.5rem; font-weight: 600; color: var(--brand); list-style: none; display: flex; justify-content: space-between; }
-.case summary::-webkit-details-marker { display: none; }
-.case summary::after { content: "+"; font-size: 1.25rem; line-height: 1; }
-.case[open] summary::after { content: "–"; }
-.case[open] summary { border-bottom: 1px solid var(--line); }
+.case-title { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; color: var(--brand); border-bottom: 1px solid var(--line); }
 .viewer { padding: 1rem; position: relative; }
 .slides { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; border-radius: 12px; }
 .slide { flex: 0 0 100%; margin: 0; scroll-snap-align: start; }
@@ -288,7 +284,7 @@ dialog.single .lb-stage img { max-width: 96vw; }
 @media print {
   :root { --paper: #fff; --surface: #fff; --ink: #000; --muted: #333; --glass: #fff; --glow: transparent; }
   body { background: #fff; font-size: 11pt; }
-  .topnav, dialog, .case summary { display: none; }
+  .topnav, dialog { display: none; }
   .hero { padding-top: 1rem; }
   .slides { display: block; overflow: visible; }
   .slide { margin-bottom: 1rem; }

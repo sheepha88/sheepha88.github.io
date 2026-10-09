@@ -52,7 +52,6 @@ def _open(browser, base_url, width, height, scheme, js=True):
 
 
 def _expand_all(page):
-    page.evaluate("document.querySelectorAll('details').forEach(d => d.open = true)")
     page.evaluate("document.querySelectorAll('img').forEach(i => i.loading = 'eager')")
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(500)
@@ -134,7 +133,8 @@ def test_content_present_without_js(browser, base_url):
     assert page.locator("#p1 .slide").count() == 9
     assert page.locator("#p2 .slide").count() == 9
     assert page.locator("#p3 .slide").count() == 8
-    assert page.locator("#p4 details").count() == 0
+    assert page.locator("#p4 .case").count() == 0
+    assert page.locator(".case").count() == 3
     assert page.locator("#career tbody tr").count() == 4
     assert page.locator(".cf-item").count() == 3
     ctx.close()
@@ -150,7 +150,6 @@ def test_no_phone_number_or_education(browser, base_url):
 
 def test_lightbox_navigation(browser, base_url):
     ctx, page = _open(browser, base_url, 1440, 900, "light")
-    page.evaluate("document.querySelector('#p1 details').open = true")
     page.locator("#p1 .slide a").first.click()
     assert page.locator(".lb-count").inner_text() == "1 / 9"
     page.keyboard.press("ArrowRight")

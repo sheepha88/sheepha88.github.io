@@ -21,8 +21,8 @@
       </dd></div>
     </dl>
     {% if p.slides %}
-    <details class="case">
-      <summary>케이스 상세 보기</summary>
+    <div class="case">
+      <h4 class="case-title">프로젝트 상세보기</h4>
       <div class="viewer" data-viewer>
         <div class="slides" tabindex="0" role="region" aria-label="{{ p.name }} 케이스 슬라이드(좌우로 넘겨 보기)">
           {% for s in p.slides %}
@@ -34,7 +34,7 @@
           {% endfor %}
         </div>
       </div>
-    </details>
+    </div>
     {% endif %}
   </div>
 </article>
